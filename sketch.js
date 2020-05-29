@@ -7,7 +7,7 @@ let edgesP;
 
 let resetBtn;
 
-const NODE_RADIUS = 16;
+const NODE_RADIUS = 18;
 const MIN_DISTANCE_BTWN_NODES = 12;
 
 let vertices = [];
@@ -37,6 +37,7 @@ function draw() {
 
   background(200);
 
+  // draw edges
   strokeWeight(2.5);
   stroke(0);
   for (let edge of edges) {
@@ -60,12 +61,20 @@ function draw() {
     line(firstVertex[0], firstVertex[1], mouseX, mouseY);
   }
 
-  fill(255);
-  strokeWeight(2);
-  stroke(0);
+  // draw vertices
+  let i = 0;
   for (let vertex of vertices) {
 
+    fill(255);
+    strokeWeight(2);
+    stroke(0);
     ellipse(vertex[0], vertex[1], NODE_RADIUS);
+
+    fill(0);
+    strokeWeight(1);
+    text(i, vertex[0] - 5, vertex[1] + 5);
+
+    i++;
   }
 
   verticesP.html("Order (vertices): " + vertices.length);
