@@ -18,6 +18,9 @@ let secondVertex;
 
 let first = true;
 
+let startDragging = true;
+let movingVertexIndex = -1;
+
 function setup() {
 
   cnv = createCanvas(wdth, hght);
@@ -161,6 +164,50 @@ function canvasPressed() {
   }
 }
 
+function mouseDragged() {
+
+  if (startDragging) {
+
+    movingVertexIndex = -1;
+    let i = 0;
+    for (let vertex of vertices) {
+
+      let dx = abs(mouseX - vertex[0]);
+      let dy = abs(mouseY - vertex[1]);
+
+      let d = sqrt(dx*dx + dy*dy);
+
+      if (d <= NODE_RADIUS + MIN_DISTANCE_BTWN_NODES) {
+        found = true;
+        movingVertexIndex = i;
+        break;
+      }
+      i++;
+    }
+
+    startDragging = false;
+    first = true;
+  } else {
+
+    vertices[movingVertexIndex][0] = mouseX;
+    vertices[movingVertexIndex][1] = mouseY;
+  }
+}
+
+function mouseReleased() {
+
+  startDragging = true;
+}
+
+function keyPressed() {
+
+  if (keyCode === ESCAPE) {
+    first = true;
+  }
+
+  return false;
+}
+
 function resetGraph() {
 
   vertices = [];
@@ -170,5 +217,5 @@ function resetGraph() {
 
 /* TODO:
     ability to delete edges/vertices
-    upload to github
+    move vertices
 */
