@@ -6,6 +6,7 @@ let verticesP;
 let edgesP;
 
 let resetBtn;
+let numberCheckbox;
 
 const NODE_RADIUS = 18;
 const MIN_DISTANCE_BTWN_NODES = 12;
@@ -28,6 +29,8 @@ function setup() {
 
   verticesP = createP("Order (vertices): 0");
   edgesP = createP("Size (edges): 0");
+
+  numberCheckbox = createCheckbox("Show numbers on vertices", false);
 
   resetBtn = createButton("Reset");
   resetBtn.mousePressed(resetGraph);
@@ -70,9 +73,12 @@ function draw() {
     stroke(0);
     ellipse(vertex[0], vertex[1], NODE_RADIUS);
 
-    fill(0);
-    strokeWeight(1);
-    text(i, vertex[0] - 5, vertex[1] + 5);
+    if (numberCheckbox.checked()) {
+
+      fill(0);
+      strokeWeight(1);
+      text(i + 1, vertex[0] - 5, vertex[1] + 5);
+    }
 
     i++;
   }
@@ -212,6 +218,10 @@ function keyPressed() {
 
   if (keyCode === ESCAPE) {
     first = true;
+  }
+
+  if (keyCode === F5) {
+    location.reload();
   }
 
   return false;
