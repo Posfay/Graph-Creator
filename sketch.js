@@ -17,7 +17,7 @@ let edges = [];
 let firstVertex;
 let secondVertex;
 
-let first = true;
+let currentlyCreatingEdge = false;
 
 let startDragging = true;
 let movingVertexIndex = -1;
@@ -56,7 +56,7 @@ function draw() {
     }
   }
 
-  if (!first) {
+  if (currentlyCreatingEdge) {
 
     strokeWeight(3);
     stroke(0);
@@ -136,7 +136,7 @@ function canvasPressed() {
     }
   }
 
-  if (!found && first) {
+  if (!found && !currentlyCreatingEdge) {
 
     let vertex = [];
     vertex.push(mouseX);
@@ -146,7 +146,7 @@ function canvasPressed() {
     return;
   }
 
-  if (!found && !first) {
+  if (!found && currentlyCreatingEdge) {
 
     let vertex = [];
     vertex.push(mouseX);
@@ -157,25 +157,25 @@ function canvasPressed() {
 
     createEdge(firstVertex, secondVertex);
 
-    first = true;
+    currentlyCreatingEdge = false;
     return;
   }
 
-  if (found && first) {
+  if (found && !currentlyCreatingEdge) {
 
     firstVertex = foundVertex;
 
-    first = false;
+    currentlyCreatingEdge = true;
     return;
   }
 
-  if (found && !first) {
+  if (found && currentlyCreatingEdge) {
 
     secondVertex = foundVertex;
 
     createEdge(firstVertex, secondVertex);
 
-    first = true;
+    currentlyCreatingEdge = false;
   }
 }
 
@@ -201,7 +201,7 @@ function mouseDragged() {
     }
 
     startDragging = false;
-    first = true;
+    currentlyCreatingEdge = false;
   } else {
 
     vertices[movingVertexIndex][0] = mouseX;
@@ -217,7 +217,7 @@ function mouseReleased() {
 function keyPressed() {
 
   if (keyCode === ESCAPE) {
-    first = true;
+    currentlyCreatingEdge = false;
   }
 
   if (keyCode === F5) {
